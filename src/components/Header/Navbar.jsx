@@ -1,8 +1,11 @@
 import { Button, Space } from 'antd'
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/Auth'
 
 const Navbar = () => {
+
+    const { isAuth, handleLogout } = useAuth()
 
     const navigate = useNavigate()
 
@@ -22,14 +25,16 @@ const Navbar = () => {
                         </ul>
                         <div className="d-flex">
                             <Space>
-                                <>
-                                    <Button type='primary' size='large' className='bg-success' onClick={() => { navigate("/auth/login") }}>Login</Button>
-                                    <Button type='primary' size='large' className='bg-info' onClick={() => { navigate("/auth/register") }}>Register</Button>
-                                </>
-                                <>
-                                    <Button type='primary' size='large' className='bg-info' onClick={() => { navigate("/dashboard") }}>Dashboard</Button>
-                                    <Button type='primary' size='large' danger>Logout</Button>
-                                </>
+                                {isAuth
+                                    ? <>
+                                        <Button type='primary' size='large' className='bg-info' onClick={() => { navigate("/dashboard") }}>Dashboard</Button>
+                                        <Button type='primary' size='large' danger onClick={handleLogout}>Logout</Button>
+                                    </>
+                                    : <>
+                                        <Button type='primary' size='large' className='bg-success' onClick={() => { navigate("/auth/login") }}>Login</Button>
+                                        <Button type='primary' size='large' className='bg-info' onClick={() => { navigate("/auth/register") }}>Register</Button>
+                                    </>
+                                }
 
                             </Space>
                         </div>

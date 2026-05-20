@@ -9,7 +9,7 @@ const Hero = () => {
         <div className="container">
             <Row>
                 <Col span={24}>
-                  <Title className='text-center'>Hero</Title>
+                  <Title className='text-center'>Home - Hero</Title>
                 </Col>
             </Row>
         </div>
