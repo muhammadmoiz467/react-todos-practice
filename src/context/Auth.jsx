@@ -11,10 +11,10 @@ const AuthContext = ({ children }) => {
 
     const readProfile = () => {
         const user = { uid: "", email: "alikhan00@gmail.com", name: "Ali Khan" }
-        setState({ isAuth: true, user })
+        // setState({ isAuth: true, user })
         setTimeout(() => { 
             setIsAppLoading(false)
-        }, 2000);
+        }, 1000);
     }
     useEffect(() => { readProfile() },[])
 
