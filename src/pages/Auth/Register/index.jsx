@@ -1,6 +1,6 @@
 import { Button, Card, Form, Input, message, Typography } from 'antd'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const { Title, Paragraph } = Typography
 const { Item } = Form
@@ -10,6 +10,7 @@ const Register = () => {
 
   const [state, setState] = useState(initialState)
   const [isProcessing, setIsProcessing] = useState(false)
+  const navigate = useNavigate()
 
   const handleChange = e => setState(s => ({ ...s, [e.target.name]: e.target.value }))
 
@@ -45,6 +46,7 @@ const Register = () => {
     setTimeout(() => {
       setIsProcessing(false)
       window.toastify("A new account has been successfully created", "success")
+      navigate("/auth/login")
     }, 500);
 
   }
@@ -54,7 +56,7 @@ const Register = () => {
       <div className='container'>
         <div className='card p-3 p-4 mx-auto'>
           <Title level={1} className='text-center'>Register</Title>
-          <Paragraph className='text-center'>Already have an account? <Link to="/auht/login">Login</Link></Paragraph>
+          <Paragraph className='text-center'>Already have an account? <Link to="/auth/login">Login</Link></Paragraph>
 
           <Form layout='vertical'>
 
