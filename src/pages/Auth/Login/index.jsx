@@ -40,7 +40,7 @@ const Login = () => {
       dispatch({isAuth: true, user})
       navigate("/dashboard")
       setIsProcessing(false)
-      window.toastify("Login successfully", "success")
+      window.toastify("Login successful", "success")
     }, 500);
 
   }
@@ -51,6 +51,7 @@ const Login = () => {
         <div className='card p-3 p-4 mx-auto'>
           <Title level={1} className='text-center'>Login</Title>
           <Paragraph className='text-center'>Already have an account? <Link to="/auth/register">Create Account</Link></Paragraph>
+          <Paragraph className='text-center'>Forgot Password? <Link to="/auth/forgot-password">Reset Password</Link></Paragraph>
 
           <Form layout='vertical'>
 
