@@ -1,4 +1,4 @@
-import { Col, Row, Typography } from 'antd'
+import { Col, Row, Space, Typography } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
@@ -11,9 +11,10 @@ const Hero = () => {
             <Row>
                 <Col span={24} className='text-center'>
                   <Title level={1}>Dashboard - Hero</Title>
-
-                  <Link to="/" className='btn btn-primary'>Home</Link>
-                  <Link to="/auth/login" className='btn btn-primary'>Login</Link>
+                  <Space>
+                  <Link to="/" className='btn btn-primary'>Frontend</Link>
+                  <Link to="/dashboard/todos" className='btn btn-primary'>Todos</Link>
+                  </Space>
                 </Col>
             </Row>
         </div>
