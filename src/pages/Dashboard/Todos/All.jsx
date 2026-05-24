@@ -2,7 +2,7 @@ import { DeleteOutlined, EditOutlined, MoreOutlined } from '@ant-design/icons'
 import { Typography, Button, Table, Space, Dropdown } from 'antd'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const { Title, Text } = Typography
 
@@ -26,14 +26,12 @@ const All = () => {
     console.log('todo', todo)
 
     const filteredTodos = todos.filter(item => item.id !== todo.id)
+
     setTodos(filteredTodos)
 
-    localStorage.setItem('todos', filteredTodos)
+    localStorage.setItem('todos', JSON.stringify(filteredTodos))
 
     window.toastify("Todo deleted successfully", "success")
-
-    console.log('todos', todos)
-    console.log('filteredTodos', filteredTodos)
   }
 
   const columns = [
@@ -48,7 +46,7 @@ const All = () => {
       render: (_, record) => (
         <Dropdown menu={{ 
           items: [
-            { label: "Edit", key: "edit", icon:<EditOutlined />, onClick: () => {} },
+            { label: "Edit", key: "edit", icon:<EditOutlined />, onClick: () => { navigate(`/dashboard/todos/edit/${record.id}`) } },
             { label: "Delete", key: "delete", icon: <DeleteOutlined />, onClick: () => { handleDelete(record) } }
           ]
         }} trigger={['click']}>
