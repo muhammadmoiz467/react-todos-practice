@@ -1,7 +1,9 @@
-import { Button, Card, Form, Input, message, Typography } from 'antd'
+import { Button, Form, Input, Typography } from 'antd'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/Auth'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '@/config/firebase'
 
 const { Title, Paragraph } = Typography
 const { Item } = Form
@@ -13,38 +15,36 @@ const Login = () => {
   const [state, setState] = useState(initialState)
   const [isProcessing, setIsProcessing] = useState(false)
   const navigate = useNavigate()
-
+  
   const handleChange = e => setState(s => ({ ...s, [e.target.name]: e.target.value }))
-
+  
   const handleLogin = () => {
     let { email, password } = state
-
-    setIsProcessing(true)
-
-    const users = JSON.parse(localStorage.getItem("users")) || []
-
-    const user = users.find(user => user.email === email && user.password === password)
-    if (!user) {
-
-      // setTimeout(() => {
-      //   setIsProcessing(false)
-      // }, 500);
-      
-        setIsProcessing(false)
-      return window.toastify("Invalid email or password", "error")
-    }
-
     
-    setTimeout(() => {
-      localStorage.setItem('user', JSON.stringify(user))
+    setIsProcessing(true)
+    
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => { 
+      const user = userCredential.user;
       dispatch({isAuth: true, user})
       navigate("/dashboard")
-      setIsProcessing(false)
       window.toastify("Login successful", "success")
-    }, 500);
+      console.log('user', user)
+      })
+      .catch((error) => {
+        console.error(error)
+         if (error.code === "auth/invalid-credential") {
+          return window.toastify("Invalid email or passowrd", "error")
+        }
+        window.toastify("Something went wrong while login", "error")
+      })
+      .finally(() => {
+        setIsProcessing(false)
+      })
+  
 
   }
-
+  
   return (
     <main className='auth flex-center'>
       <div className='container'>

@@ -6,8 +6,13 @@ import Routes from "@/pages/Routes"
 import ScreenLoader from "@/components/Misc/ScreenLoader"
 import { useAuth } from "@/context/Auth"
 
+// import { auth } from "@/config/firebase"
+// import { updateEmail } from "firebase/auth"
+// import { useEffect } from "react"
+
 const App = () => {
   const { isAppLoading } = useAuth()
+ 
   return (
     <>
     <ConfigProvider theme={{ token:{ colorPrimary: "#1d3557 "}, components: { Button: { controlOutlineWidth: 0 } } }}>
