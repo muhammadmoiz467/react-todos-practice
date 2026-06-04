@@ -1,6 +1,8 @@
-import { Button, Card, Form, Input, message, Typography } from 'antd'
+import { Button, Form, Input, Typography } from 'antd'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '@/config/firebase'
 
 const { Title, Paragraph } = Typography
 const { Item } = Form
@@ -23,31 +25,51 @@ const Register = () => {
     if (password.length < 6) { return window.toastify("Password must be atleast 6 chars", "error") }
     if (confirmPassword !== password) { return window.toastify("Password not match", "error") }
 
-    const user = { uid: window.getRandomId(), fullName, email, password, status: "active", role: "customer" }
+    // const user = { uid: window.getRandomId(), fullName, email, password, status: "active", role: "customer" }
 
     setIsProcessing(true)
-
-    const users = JSON.parse(localStorage.getItem("users")) || []
-
-    let isUserFound = users.find(user => user.email === email)
-    if (isUserFound) {
-
-      // setTimeout(() => {
-      //   setIsProcessing(false)
-      // }, 500);
-      
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed up 
+        const user = userCredential.user;
+        console.log('userCredential', userCredential)
+        console.log('user', user)
+        window.toastify("A new account has been successfully created", "success")
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode)
+        console.log(errorMessage)
+        if (errorCode === "auth/email-already-in-use") {
+          return window.toastify("Email already in use", "error")
+        }
+        window.toastify("Something went wrong while creating a new user", "error")
+      })
+      .finally(() => {
         setIsProcessing(false)
-      return window.toastify("User already exist", "error")
-    }
+      })
 
-    users.push(user)
-    localStorage.setItem('users', JSON.stringify(users))
+    // const users = JSON.parse(localStorage.getItem("users")) || []
+    // let isUserFound = users.find(user => user.email === email)
+    // if (isUserFound) {
 
-    setTimeout(() => {
-      setIsProcessing(false)
-      window.toastify("A new account has been successfully created", "success")
-      navigate("/auth/login")
-    }, 500);
+    //   // setTimeout(() => {
+    //   //   setIsProcessing(false)
+    //   // }, 500);
+
+    //     setIsProcessing(false)
+    //   return window.toastify("User already exist", "error")
+    // }
+
+    // users.push(user)
+    // localStorage.setItem('users', JSON.stringify(users))
+
+    // setTimeout(() => {
+    //   setIsProcessing(false)
+    //   window.toastify("A new account has been successfully created", "success")
+    //   navigate("/auth/login")
+    // }, 500);
 
   }
 
