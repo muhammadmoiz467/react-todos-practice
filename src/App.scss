@@ -17,3 +17,181 @@ main {
   justify-content: center;
   align-items: center;
 }
+
+
+// dashboard ka lie footer ke styling
+.dashboard-footer footer {
+  background-color: #ffff !important;
+}
+.dashboard-footer footer {
+  background-color: #fff !important;
+}
+
+.dashboard-footer footer,
+.dashboard-footer footer p,
+.dashboard-footer footer .ant-typography {
+  color: #000 !important;
+}
+
+
+//  dashboard image
+.sidebar-logo {
+  height: 64px;
+  margin: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-logo img {
+  max-width: 100%;
+  max-height: 40px;
+}
+
+
+
+// dashboard ma box ke styling
+// .welcome-box {
+//   // padding: 24px;
+//   // min-height: 360px;
+//   // display: flex;
+//   // justify-content: center;
+//   // align-items: center;
+//   // text-align: center;
+//   // flex-wrap: wrap;
+//     width: 100%;
+//   padding: 24px;
+//   min-height: 360px;
+
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-wrap: wrap;
+
+//   text-align: center;
+
+// }
+
+// .welcome-text {
+//   font-size: clamp(18px, 4vw, 40px);
+//   // font-family: -apple-system;
+// }
+
+// // .user-text {
+// //   font-size: clamp(20px, 5vw, 48px);
+// //   color: #1d3557;
+// //   margin-left: 12px;
+// //   word-break: break-word;
+// // }
+// .user-text {
+//  font-size: clamp(20px, 5vw, 60px);
+//   color: #1d3557;
+//   word-break: break-word;
+// }
+
+// /* 🔥 MOBILE FIX */
+// @media (max-width: 576px) {
+//   .welcome-box {
+//     flex-direction: column;   /* top-bottom */
+//     gap: 8px;                 /* controlled spacing */
+//   }
+
+//   .user-text {
+//     margin-left: 0;           /* REMOVE side gap */
+//   }
+// }
+
+// /* 🔥 DESKTOP FIX */
+// @media (min-width: 577px) {
+//   .welcome-box {
+//     flex-direction: row;
+//   }
+
+//   .user-text {
+//     margin-left: 12px;        /* side gap only on large screens */
+//   }
+// }
+
+// // /////////////////////////// /////////////////////////////// 
+
+// .welcome-box {
+//   width: 100%;
+//   padding: 24px;
+//   min-height: 360px;
+
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+
+//   flex-wrap: wrap;
+//   text-align: center;
+
+//   gap: 12px; /* ⭐ universal spacing */
+// }
+
+// .welcome-text {
+//   font-size: clamp(18px, 4vw, 40px);
+// }
+
+// .user-text {
+//   font-size: clamp(20px, 5vw, 60px);
+//   color: #1d3557;
+//   word-break: break-word;
+// }
+
+// /* 📱 MOBILE */
+// @media (max-width: 576px) {
+//   .welcome-box {
+//     flex-direction: column;
+//     gap: 6px; /* tighter on mobile */
+//   }
+// }
+
+// /* 💻 DESKTOP */
+// @media (min-width: 992px) {
+//   .welcome-box {
+//     flex-direction: row;
+//     gap: 16px; /* thora spacious */
+//   }
+// }
+
+
+//////////////////////////////////////////////
+/// 
+ .welcome-box {
+  width: 100%;
+  padding: 24px;
+  min-height: 360px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  gap: 12px;
+}
+
+.welcome-text {
+  font-size: clamp(18px, 2.5vw, 34px);
+}
+
+.user-text {
+  font-size: clamp(22px, 3vw, 46px);
+  color: #1d3557;
+  word-break: break-word;
+}
+
+@media (max-width: 576px) {
+  .welcome-box {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+@media (min-width: 992px) {
+  .welcome-box {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 16px;
+  }
+}
