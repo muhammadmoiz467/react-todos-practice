@@ -2,6 +2,8 @@ import { Button, Card, Form, Input, message, Typography } from 'antd'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/Auth'
+import { sendPasswordResetEmail } from 'firebase/auth'
+import { auth } from '@/config/firebase'
 
 const { Title, Paragraph } = Typography
 const { Item } = Form
@@ -19,8 +21,23 @@ const ForgotPassword = () => {
   const handleForgotPassword = () => {
     let { email } = state
 
-    console.log('email', email)
-    navigate("/")
+    setIsProcessing(true)
+
+    sendPasswordResetEmail(auth, email)
+  .then(() => {
+    window.toastify("Password reset email sent", "success")
+    navigate("/auth/login")
+    // ..
+  })
+  .catch((error) => {
+    console.error(error)
+    window.toastify("Something went wrong. Please try again", "error")
+    // ..
+  })
+  .fianlly(() => {
+    setIsProcessing(false)
+  })
+
 
   }
 

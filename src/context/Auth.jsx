@@ -1,3 +1,5 @@
+import { auth } from '@/config/firebase'
+import { onAuthStateChanged, signOut } from 'firebase/auth'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
 const Auth = createContext()
@@ -11,22 +13,28 @@ const AuthContext = ({ children }) => {
 
     const readProfile = () => {
 
-        const user = JSON.parse(localStorage.getItem("user"))
-        if (user) {
-            setState({ isAuth: true, user })
-        }
-
-        setTimeout(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setState({ isAuth: true, user })
+            }
             setIsAppLoading(false)
-        }, 1000);
+
+        });
+
     }
 
     useEffect(() => { readProfile() }, [])
 
     const handleLogout = () => {
-        setState(initialState)
-        localStorage.removeItem("user")
-        setState(initialState)
+        signOut(auth)
+        .then(() => {
+            setState(initialState)
+            window.toastify("Logout successfully", "success")
+        })
+        .catch((error) => {
+            console.error(error)
+            window.toastify("Please try again", "info")
+        })
     }
 
     return (

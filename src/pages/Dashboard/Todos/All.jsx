@@ -1,6 +1,9 @@
+import { firestore } from '@/config/firebase'
+import { useAuth } from '@/context/Auth'
 import { DeleteOutlined, EditOutlined, MoreOutlined } from '@ant-design/icons'
 import { Typography, Button, Table, Space, Dropdown } from 'antd'
 import dayjs from 'dayjs'
+import { collection, deleteDoc, doc, getDocs, orderBy, query, where } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -8,30 +11,49 @@ const { Title, Text } = Typography
 
 const All = () => {
 
+  const {user} = useAuth()
   const [todos, setTodos] = useState([])
   const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(false)
 
-  useEffect(() => {
+  const getTodos = async () => {
 
-    const todos = JSON.parse(localStorage.getItem("todos"))
-    if (todos) { setTodos(todos.map(todo => ({...todo, key: todo.id }))) }
+    setIsLoading(true)
+    const querySnapshot = await getDocs(query(collection(firestore, "todos"), where("uid", "==", user.uid), orderBy("createdAt", "asc")));
 
-    // const todos = JSON.parse(localStorage.getItem("todos")) || []
-    // setTodos(todos)
+    const array = []
 
-  }, [])
-  console.log('todos', todos)
+    querySnapshot.forEach((doc) => {
+      const todo = doc.data()
+      array.push({ ...todo, key: todo.id })
+      console.log('todo', todo)
+    });
 
-  const handleDelete = (todo) => {
-    console.log('todo', todo)
+    setTodos(array)
+    setIsLoading(false)
+  }
+  useEffect(() => { getTodos() }, [])
 
-    const filteredTodos = todos.filter(item => item.id !== todo.id)
+  // console.log('todos', todos)
 
-    setTodos(filteredTodos)
+  const handleDelete = async (todo) => {
+
+    try {
+      await deleteDoc(doc(firestore, "todos", todo.id));
+
+      const filteredTodos = todos.filter(item => item.id !== todo.id)
+      
+      setTodos(filteredTodos)
+
+      window.toastify("Todo deleted successfully", "success")
+      
+    } catch (error) {
+      console.error(error)
+    }
+
 
     localStorage.setItem('todos', JSON.stringify(filteredTodos))
 
-    window.toastify("Todo deleted successfully", "success")
   }
 
   const columns = [
@@ -44,9 +66,9 @@ const All = () => {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
-        <Dropdown menu={{ 
+        <Dropdown menu={{
           items: [
-            { label: "Edit", key: "edit", icon:<EditOutlined />, onClick: () => { navigate(`/dashboard/todos/edit/${record.id}`) } },
+            { label: "Edit", key: "edit", icon: <EditOutlined />, onClick: () => { navigate(`/dashboard/todos/edit/${record.id}`) } },
             { label: "Delete", key: "delete", icon: <DeleteOutlined />, onClick: () => { handleDelete(record) } }
           ]
         }} trigger={['click']}>
@@ -64,7 +86,7 @@ const All = () => {
           <Button type='primary' onClick={() => { navigate("/dashboard/todos/add") }}>Add Todo</Button>
         </div>
 
-        <Table columns={columns} dataSource={todos} />
+        <Table columns={columns} dataSource={todos} loading={isLoading} className='table-responsive' />
       </div>
     </main>
   )
