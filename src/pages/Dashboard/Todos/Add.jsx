@@ -35,7 +35,7 @@ const Add = () => {
     setIsProcessing(true)
 
     try {
-      await addDoc(collection(firestore, "todos"), todo);
+      // await addDoc(collection(firestore, "todos"), todo);
       await setDoc(doc(firestore, "todos", todo.id), todo);
       window.toastify("A new todo has been sucessfully created", "success")
     } catch (e) {
