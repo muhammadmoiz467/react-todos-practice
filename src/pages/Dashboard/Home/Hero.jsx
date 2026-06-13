@@ -1,10 +1,13 @@
-import { Col, Row, Space, Typography } from 'antd'
+import { Button, Col, Row, Space, Typography } from 'antd'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const { Title } = Typography
 
 const Hero = () => {
+ 
+  const navigate = useNavigate()
+
   return (
     <div className='py-5'>
         <div className="container">
@@ -14,6 +17,7 @@ const Hero = () => {
                   <Space>
                   <Link to="/" className='btn btn-primary'>Frontend</Link>
                   <Link to="/dashboard/todos" className='btn btn-primary'>Todos</Link>
+                  <Button type='primary' onClick={() => navigate('/dashboard/dashboardTempory/dashTesting')}>Dashboard Temp</Button>
                   </Space>
                 </Col>
             </Row>
