@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { DashboardOutlined, SettingOutlined,  MenuFoldOutlined, MenuUnfoldOutlined, LogoutOutlined, UploadOutlined, UsergroupAddOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { DashboardOutlined, SettingOutlined,  MenuFoldOutlined, MenuUnfoldOutlined, LogoutOutlined, UploadOutlined, UsergroupAddOutlined, UserOutlined, VideoCameraOutlined, PieChartOutlined, HomeFilled, HomeOutlined } from '@ant-design/icons';
 import logo from '@/assets/logo.png'
 import { auth } from '@/config/firebase';
 
@@ -16,23 +16,28 @@ import { useNavigate } from 'react-router-dom';
 
 const { Header, Content, Sider } = Layout;
 const items = [
-  {
+   {
     key: '1',
-    icon: <DashboardOutlined />,
+    icon: <PieChartOutlined />,
     label: 'Dashboard',
   },
   {
     key: '2',
+    icon: <HomeOutlined />,
+    label: 'Home',
+  },
+  {
+    key: '3',
     icon: <UsergroupAddOutlined />,
     label: 'Users'
   },
   {
-    key: '3',
+    key: '4',
     icon: <UserOutlined />,
     label: 'Users',
   },
   {
-    key: '4',
+    key: '5',
     icon: <SettingOutlined />,
     label: 'Setting'
   }

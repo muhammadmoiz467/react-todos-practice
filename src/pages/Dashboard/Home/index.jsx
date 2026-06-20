@@ -6,13 +6,34 @@ import Map from './Map'
 
 const Home = () => {
   return (
-    <main>
-     <Hero />
-     <Services />
-     <FAQs />
-     <Map />
-    </main>
+      <Hero />
+    // <main>
+    //  {/* <Services />
+    //  <FAQs />
+    //  <Map /> */}
+    // </main>
+    
   )
 }
 
 export default Home
+// import { Col, Row, Typography } from 'antd'
+// import React from 'react'
+
+// const { Title } = Typography
+
+// const Home = () => {
+//   return (
+//     <div className='py-5'>
+//         <div className="container">
+//             <Row>
+//                 <Col span={24}>
+//                   <Title className='text-center'>FAQs</Title>
+//                 </Col>
+//             </Row>
+//         </div>
+//     </div>
+//   )
+// }
+
+// export default Home
