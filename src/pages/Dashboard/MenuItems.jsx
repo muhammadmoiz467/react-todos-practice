@@ -4,24 +4,22 @@ import { Link } from 'react-router-dom';
 const root = "/dashboard"
 
 const items = [
+    
     {
-        key: '1', label: <Link to={`${root}`}>Dashboard</Link>, icon: <PieChartOutlined />,
-    },
-    {
-        key: '2', label: 'Home', icon: <HomeOutlined />,
+        key: '1', label: <Link to={`${root}`}>Home</Link>, icon: <HomeOutlined />,
     },
     // { key: 'users', icon: <UsergroupAddOutlined />, label: 'Users' },
     {
-        key: '3', label: 'Users', icon: <UserOutlined />
+        key: '2', label: 'Users', icon: <UserOutlined />
     },
     {
-        key: '4', label: 'Todos', icon: <UsergroupAddOutlined />,
+        key: '3', label: 'Todos', icon: <UsergroupAddOutlined />,
         children: [
-            { key: '4.1', label: <Link to={`${root}/todos/all`}>All Todo</Link>, icon: <PieChartOutlined />},
-            { key: '4.2', label: <Link to={`${root}/todos/add`}>Add Todo</Link>, icon: <PlusOutlined />},
+            { key: '3.1', label: <Link to={`${root}/todos`}>All Todo</Link>, icon: <PieChartOutlined />},
+            { key: '3.2', label: <Link to={`${root}/todos/add`}>Add Todo</Link>, icon: <PlusOutlined />},
         ],
     },
-    { key: '5', label: 'Setting', icon: <SettingOutlined /> }
+    { key: '4', label: 'Setting', icon: <SettingOutlined /> }
 
 ]
 
