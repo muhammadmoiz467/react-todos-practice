@@ -1,5 +1,6 @@
-import { auth } from '@/config/firebase'
+import { auth, firestore } from '@/config/firebase'
 import { onAuthStateChanged, signOut } from 'firebase/auth'
+import { doc, getDoc } from 'firebase/firestore'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
 const Auth = createContext()
@@ -13,11 +14,25 @@ const AuthContext = ({ children }) => {
 
     const readProfile = () => {
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
-                setState({ isAuth: true, user })
+                const docSnap = await getDoc(doc(firestore, "users", user.uid));
+
+                if (docSnap.exists()) {
+                    const user = docSnap.data()
+                    console.log('user', user)
+                    setState({ isAuth: true, user })
+
+                } else {
+                    // docSnap.data() will be undefined in this case
+                    console.log("User not found");
+                }
+
+                setIsAppLoading(false)
+                
+            } else {                
+                setIsAppLoading(false)
             }
-            setIsAppLoading(false)
 
         });
 
@@ -27,14 +42,14 @@ const AuthContext = ({ children }) => {
 
     const handleLogout = () => {
         signOut(auth)
-        .then(() => {
-            setState(initialState)
-            window.toastify("Logout successfully", "success")
-        })
-        .catch((error) => {
-            console.error(error)
-            window.toastify("Please try again", "info")
-        })
+            .then(() => {
+                setState(initialState)
+                window.toastify("Logout successfully", "success")
+            })
+            .catch((error) => {
+                console.error(error)
+                window.toastify("Please try again", "info")
+            })
     }
 
     return (

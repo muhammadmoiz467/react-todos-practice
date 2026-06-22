@@ -81,7 +81,7 @@ const Add = () => {
           </Item>
 
           <Item label="Status" required>
-            <Select placeholder="Select status" defaultValue="incompleted" onChange={value => { setState(s => ({ ...s, status: value })) }}
+            <Select placeholder="Select status" size='large' defaultValue="incompleted" onChange={value => { setState(s => ({ ...s, status: value })) }}
               options={[
                 { label: "Completed", value: "completed" },
                 { label: "Incompleted", value: "incompleted" },
@@ -95,6 +95,9 @@ const Add = () => {
                 { label: "Public", value: "public" },
               ]}
             />
+          </Item>
+          <Item label="Image" >
+           <input type="file" className='form-control' placeholder='Add todo image' accept='image/png' onChange={e => setFile(e.target.files[0])} />
           </Item>
 
           <Button type='primary' block htmlType='submit' loading={isProcessing} onClick={handleSubmit}>Add Todo</Button>
