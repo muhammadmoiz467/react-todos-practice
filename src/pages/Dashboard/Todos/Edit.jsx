@@ -32,12 +32,14 @@ const Edit = () => {
   
     if (docSnap.exists()) {
       const todo = docSnap.data()
+      console.log('todo', todo)
       setState(todo)
   
     } else {
       // docSnap.data() will be undefined in this case
       window.toastify("Todo not found", "error");
     }
+
   }, [params])
 
 

@@ -7,11 +7,12 @@ import Map from './Map'
 const Home = () => {
   return (
     <main>
-     <Hero />
-     <Services />
-     <FAQs />
-     <Map />
-    </main>
+      <Hero />
+      {/* <Services />
+      <FAQs />
+      <Map /> */}
+     </main>
+    
   )
 }
 

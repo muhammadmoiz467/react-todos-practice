@@ -1,7 +1,7 @@
 import { firestore } from '@/config/firebase'
 import { useAuth } from '@/context/Auth'
 import { DeleteOutlined, EditOutlined, MoreOutlined } from '@ant-design/icons'
-import { Typography, Button, Table, Space, Dropdown } from 'antd'
+import { Typography, Button, Table, Image, Space, Dropdown, Tag } from 'antd'
 import dayjs from 'dayjs'
 import { collection, deleteDoc, doc, getDocs, orderBy, query, where } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
@@ -19,7 +19,7 @@ const All = () => {
   const getTodos = async () => {
 
     setIsLoading(true)
-    const querySnapshot = await getDocs(query(collection(firestore, "todos"), where("uid", "==", user.uid), orderBy("createdAt", "asc")));
+    const querySnapshot = await getDocs(query(collection(firestore, "todos"), where("uid", "==", user.uid), orderBy("createdAt", "desc")));
 
     const array = []
 
@@ -57,10 +57,16 @@ const All = () => {
   }
 
   const columns = [
+    // { title: 'Image', dataIndex: 'imageURL', render: imageURL => (todo.imageURL && <Image src={todo.imageURL} width={64} className='rounded-circle shadow' />) },
+    { title: '#', render: (text, record, index) => index + 1},
+    { title: 'Image', dataIndex: 'imageURL', render: imageURL => (imageURL ? ( <Image src={imageURL} width={64} className='rounded-circle shahdow' />) : (<Text type='secondary'>No Image</Text>) ) },
     { title: 'Title', dataIndex: 'title' },
-    { title: 'Due Date', dataIndex: 'dueDate' },
+    { title: 'Location', dataIndex: 'location' },
     { title: 'Description', dataIndex: 'description' },
-    { title: 'Priority', dataIndex: 'priority', render: text => <Text className='text-capitalize'>{text}</Text> },
+    { title: 'Due Date', dataIndex: 'dueDate' },
+    { title: 'Status', dataIndex: 'status', render: status => ( <Tag color={status === "completed" ? "success" : "purple"} className="text-capitalize">{status}</Tag> )},
+    { title: 'Visibility', dataIndex: 'visibility', render: visibility => ( <Tag color={visibility === "private" ? "blue" : "orange"} className='text-capitalize'>{visibility}</Tag> )},
+    // { title: 'Priority', dataIndex: 'priority', render: text => <Text className='text-capitalize'>{text}</Text> },
     { title: 'Date Created', dataIndex: 'createdAt', render: text => <Text className='text-capitalize'>{dayjs(text).format("dddd DD-MM-YY, hh:mm:ss A")}</Text> },
     {
       title: 'Action',
@@ -81,9 +87,9 @@ const All = () => {
   return (
     <main className='py-5'>
       <div className='container'>
-        <div className="d-flex align-items-center justify-content-between mb-4">
-          <Title level={2} className='mb-0'>Todos</Title>
-          <Button type='primary' onClick={() => { navigate("/dashboard/todos/add") }}>Add Todo</Button>
+        <div className="text-center mb-5">
+          <Title level={1} className=''>Todos All</Title>
+          {/* <Button type='primary' onClick={() => { navigate("/dashboard/todos/add") }}>Add Todo</Button> */}
         </div>
 
         <Table columns={columns} dataSource={todos} loading={isLoading} className='table-responsive' />

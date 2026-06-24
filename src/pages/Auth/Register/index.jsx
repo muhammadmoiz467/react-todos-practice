@@ -2,7 +2,8 @@ import { Button, Form, Input, Typography } from 'antd'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '@/config/firebase'
+import { auth, firestore } from '@/config/firebase'
+import { doc, serverTimestamp, setDoc } from 'firebase/firestore'
 
 const { Title, Paragraph } = Typography
 const { Item } = Form
@@ -25,7 +26,7 @@ const Register = () => {
     if (password.length < 6) { return window.toastify("Password must be atleast 6 chars", "error") }
     if (confirmPassword !== password) { return window.toastify("Password not match", "error") }
 
-    // const user = { uid: window.getRandomId(), fullName, email, password, status: "active", role: "customer" }
+    const userData = { fullName, email, status: "active", role: "customer" }
 
     setIsProcessing(true)
     createUserWithEmailAndPassword(auth, email, password)
@@ -34,21 +35,39 @@ const Register = () => {
         const user = userCredential.user;
         console.log('userCredential', userCredential)
         console.log('user', user)
+        userData.uid = user.uid
+        createUserProfile(userData)
         window.toastify("A new account has been successfully created", "success")
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
+        // const errorMessage = error.message;
         console.log(errorCode)
-        console.log(errorMessage)
+        // console.log(errorMessage)
+        setIsProcessing(false)
         if (errorCode === "auth/email-already-in-use") {
           return window.toastify("Email already in use", "error")
         }
         window.toastify("Something went wrong while creating a new user", "error")
       })
-      .finally(() => {
+
+    const createUserProfile = async (userData) => {
+
+      const user = userData 
+      user.createdAt = serverTimestamp()
+
+      try {
+        // await addDoc(collection(firestore, "todos"), todo);
+        await setDoc(doc(firestore, "users", user.uid), user);
+        window.toastify("User profile has been sucessfully created", "success")
+        // navigate("/dashboard/todos")
+      } catch (e) {
+        console.error("Error adding document: ", e);
+        window.toastify("User profile not created", "error")
+      } finally {
         setIsProcessing(false)
-      })
+      }
+    }
 
     // const users = JSON.parse(localStorage.getItem("users")) || []
     // let isUserFound = users.find(user => user.email === email)
