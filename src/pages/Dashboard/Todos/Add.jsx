@@ -68,23 +68,12 @@ const Add = () => {
   }
 
 
-  // try {
-  //   // await addDoc(collection(firestore, "todos"), todo);
-  //   await setDoc(doc(firestore, "todos", todo.id), todo);
-  //   window.toastify("A new todo has been sucessfully created", "success")
-  //   navigate("/dashboard/todos")
-  // } catch (e) {
-  //   console.error("Error adding document: ", e);
-  //   window.toastify("Todo not created", "error")
-  // } finally {
-  //   setIsProcessing(false)
-  // }
 const createDoc = async (todo) => {
   try {
     await setDoc(doc(firestore, "todos", todo.id), todo);
 
     window.toastify("Todo created successfully", "success");
-    navigate("/dashboard/todos");
+    // navigate("/dashboard/todos");
 
   } catch (e) {
     console.error(e);
@@ -137,7 +126,7 @@ return (
           />
         </Item>
         <Item label="Image" >
-          <input type="file" className='form-control' placeholder='Add todo image' accept='image/png' onChange={e => setFile(e.target.files[0])} />
+          <input type="file" className='form-control' placeholder='Add todo image' accept='image/*' onChange={e => setFile(e.target.files[0])} />
         </Item>
 
         <Button type='primary' block htmlType='submit' loading={isProcessing} onClick={handleSubmit}>Add Todo</Button>
