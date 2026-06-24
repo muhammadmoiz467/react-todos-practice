@@ -1,7 +1,7 @@
 import { firestore } from '@/config/firebase'
 import { useAuth } from '@/context/Auth'
 import { DeleteOutlined, EditOutlined, MoreOutlined } from '@ant-design/icons'
-import { Typography, Button, Table, Space, Dropdown, Tag } from 'antd'
+import { Typography, Button, Table, Image, Space, Dropdown, Tag } from 'antd'
 import dayjs from 'dayjs'
 import { collection, deleteDoc, doc, getDocs, orderBy, query, where } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
@@ -57,6 +57,9 @@ const All = () => {
   }
 
   const columns = [
+    // { title: 'Image', dataIndex: 'imageURL', render: imageURL => (todo.imageURL && <Image src={todo.imageURL} width={64} className='rounded-circle shadow' />) },
+    { title: '#', render: (text, record, index) => index + 1},
+    { title: 'Image', dataIndex: 'imageURL', render: imageURL => (imageURL ? ( <Image src={imageURL} width={64} className='rounded-circle shahdow' />) : (<Text type='secondary'>No Image</Text>) ) },
     { title: 'Title', dataIndex: 'title' },
     { title: 'Location', dataIndex: 'location' },
     { title: 'Description', dataIndex: 'description' },
